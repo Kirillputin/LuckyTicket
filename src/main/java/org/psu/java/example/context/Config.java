@@ -1,6 +1,7 @@
 package org.psu.java.example.context;
 
 import org.psu.java.example.application.EvenDecorator;
+import org.psu.java.example.application.FiveDecorator;
 import org.psu.java.example.application.FortunateTicketService;
 import org.psu.java.example.application.FortunateTicketStreamImpl;
 import org.psu.java.example.domain.Ticket;
@@ -24,8 +25,19 @@ public class Config {
     }
 
     @Bean("evenDecorator")
-    UnaryOperator<Ticket> getDecorator() {
+    UnaryOperator<Ticket> getEvenDecorator() {
         return EvenDecorator::new;
     }
+
+    @Bean
+    FortunateTicketService getFortunateFiveTicketService(@Qualifier("fiveDecorator") UnaryOperator<Ticket> decorator) {
+        return new FortunateTicketStreamImpl(decorator);
+    }
+
+    @Bean("fiveDecorator")
+    UnaryOperator<Ticket> getFiveDecorator() {
+        return FiveDecorator::new;
+    }
+
 
 }

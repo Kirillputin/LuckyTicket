@@ -33,13 +33,11 @@ public class Tickets implements CommandLineRunner {
 
     ApplicationContext context;
 
-    public Tickets(FortunateTicketService fortunateTicketService,
-                   List<TicketGenerator> ticketGenerator,
-                   Map<String, TicketGenerator> ticketGeneratorAsMap,
-                   ApplicationContext context) {
-        this.fortunateTicketService = fortunateTicketService;
-        this.ticketGenerator = ticketGenerator;
-        this.ticketGeneratorAsMap = ticketGeneratorAsMap;
+    public Tickets(ApplicationContext context) {
+
+//        this.fortunateTicketService = fortunateTicketService;
+//        this.ticketGenerator = ticketGenerator;
+//        this.ticketGeneratorAsMap = ticketGeneratorAsMap;
         this.context = context;
     }
 
@@ -50,15 +48,16 @@ public class Tickets implements CommandLineRunner {
     @Override
     public void run(String... args) {
         log.info("Hello world Spring Boot style!");
-//        var fortunateTicketService = context.getBean(FortunateTicketService.class);
+        var fortunateTicketService = context.getBean("getFortunateFiveTicketService", FortunateTicketService.class);
 //        var ticketGenerator = context.getBean("recordTicketGenerator", TicketGenerator.class);
-//        var count = fortunateTicketService.count(ticketGenerator.getTickets());
-        ticketGenerator
-                .stream()
-                .map(TicketGenerator::getTickets)
-                .mapToInt(fortunateTicketService::count)
-                .mapToObj(String::valueOf)
-                .forEach(log::info);
-//        log.info(String.valueOf(count));
+        var ticketGenerator = context.getBean("fourDigitsTicketGenerator", TicketGenerator.class);
+        var count = fortunateTicketService.count(ticketGenerator.getTickets());
+//        ticketGenerator
+//                .stream()
+//                .map(TicketGenerator::getTickets)
+//                .mapToInt(fortunateTicketService::count)
+//                .mapToObj(String::valueOf)
+//                .forEach(log::info);
+        log.info(String.valueOf(count));
     }
 }

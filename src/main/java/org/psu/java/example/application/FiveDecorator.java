@@ -10,12 +10,12 @@ import org.psu.java.example.domain.Ticket;
  */
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class EvenDecorator implements Ticket {
+public class FiveDecorator implements Ticket {
     Ticket wrapee;
 
     @Override
     public boolean isFortunate() {
-        return wrapee.getNumber() % 2 == 0 && wrapee.isFortunate();
+        return wrapee.getNumber() % 5 == 0 && wrapee.isFortunate();
     }
 
     @Override
@@ -28,4 +28,3 @@ public class EvenDecorator implements Ticket {
         return wrapee.getNumber();
     }
 }
-

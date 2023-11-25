@@ -72,6 +72,26 @@ class EightDigitsTicketGenerator extends AbstractGenerator {
         }
     }
 }
+
+@Service
+class FourDigitsTicketGenerator extends AbstractGenerator {
+
+    public FourDigitsTicketGenerator() {
+        super(4);
+    }
+
+    @Override
+    protected Ticket toTicket(int number) {
+        return  (TheTicket) () -> number;
+    }
+
+    interface TheTicket extends Ticket {
+        @Override
+        default int getLength() {
+            return 4;
+        }
+    }
+}
 class SixDigitsTicketGenerator implements TicketGenerator {
 
     @Override
@@ -92,8 +112,10 @@ class SixDigitsTicketGenerator implements TicketGenerator {
     }
 }
 
+
+
 @Service
-@Primary
+//@Primary
 class RecordTicketGenerator extends AbstractGenerator {
 
     public RecordTicketGenerator() {
